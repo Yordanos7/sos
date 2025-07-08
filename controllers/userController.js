@@ -21,6 +21,21 @@ const getProfile = async (req, res) => {
 };
 
 // you can add updateProfile if it is nessesary  updateProfile.js
+const updateProfile = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+      return res.status(404).json({
+        message: "sorry user not found on the updateProfile controller",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Internale server Error founde on the updateProfile controller",
+      error: error.message,
+    });
+  }
+};
 
 const deleteUser = async (req, res) => {
   try {
@@ -40,4 +55,5 @@ const deleteUser = async (req, res) => {
 module.exports = {
   getProfile,
   deleteUser,
+  updateProfile,
 };

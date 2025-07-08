@@ -4,7 +4,8 @@
   "description": "soserapp/\r ├── backend/\r │   ├── src/\r │   │   ├── controllers/\r │   │   │   ├── authController.js\r │   │   │   ├── userController.js\r │   │   │   ├── vacancyController.js\r │   │   │   ├── eventController.js\r │   │   │   ├── announcementController.js\r │   │   │   ├── mediaController.js\r │   │   │   ├── officeController.js\r │   │   │   ├── serviceController.js\r │   │   ├── models/\r │   │   │   ├── User.js\r │   │   │   ├── Vacancy.js\r │   │   │   ├── Event.js\r │   │   │   ├── Announcement.js\r │   │   │   ├── Media.js\r │   │   │   ├── Office.js\r │   │   │   ├── Service.js\r │   │   ├── routes/\r │   │   │   ├── authRoutes.js\r │   │   │   ├── userRoutes.js\r │   │   │   ├── vacancyRoutes.js\r │   │   │   ├── eventRoutes.js\r │   │   │   ├── announcementRoutes.js\r │   │   │   ├── mediaRoutes.js\r │   │   │   ├── officeRoutes.js\r │   │   │   ├── serviceRoutes.js\r │   │   ├── middlewares/\r │   │   │   ├── authMiddleware.js\r │   │   │   ├── errorMiddleware.js\r │   │   ├── config/\r │   │   │   ├── db.js\r │   │   │   ├── env.js\r │   │   ├── utils/\r │   │   │   ├── logger.js\r │   │   │   ├── email.js\r │   │   ├── app.js\r │   │   ├── server.js\r │   ├── tests/\r │   │   ├── auth.test.js\r │   │   ├── vacancy.test.js\r │   │   ├── event.test.js\r │   │   ├── announcement.test.js\r │   │   ├── media.test.js\r │   │   ├── office.test.js\r │   │   ├── service.test.js\r │   ├── package.json\r │   ├── .env\r │   ├── README.md",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.1",
     "mysql2": "^3.14.1",
+    "nodemon": "^3.1.10",
     "sequelize": "^6.37.7"
   }
 }
