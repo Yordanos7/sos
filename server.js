@@ -57,3 +57,7 @@ sequelize
   .catch((err) => {
     console.error("Unable to connect to the database:", err);
   });
+
+// july 8 programme
+// cooking for 1:30 hr
+// begun code like understanding the backend of sos and make it work the last day is to day
