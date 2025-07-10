@@ -14,4 +14,4 @@ router.post("/", authMiddleware, createMedia);
 router.put("/:id", authMiddleware, roleMiddleware("admin"), updateMedia);
 router.delete("/:id", authMiddleware, roleMiddleware("admin"), deleteMedia);
 
-module.express = router;
+module.exports = router;

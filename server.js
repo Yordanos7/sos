@@ -8,14 +8,14 @@ const announcementRoutes = require("./routes/announcementRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const eventRoutes = require("./routes/eventRoutes");
 const mediaRoutes = require("./routes/mediaRoutes");
-const newsRoutes = require("./routes/newsRoutes");
-const serviceRoutes = require("./routes/serviceRoutes");
+//const newsRoutes = require("./routes/newsRoutes");
+//const serviceRoutes = require("./routes/serviceRoutes");
 const vacancyRoutes = require("./routes/vacancyRoutes");
 const authRoutes = require("./routes/authRoutes");
 
 const app = express(); // this is to create an express app to handle HTTP requests
 // all the middlewareS are seted here undre bro!
-app.use(cors());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // and this is to parse the request body
 
@@ -30,8 +30,8 @@ app.use("/api/announcements", announcementRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/media", mediaRoutes);
-app.use("/api/news", newsRoutes);
-app.use("/api/services", serviceRoutes);
+//app.use("/api/news", newsRoutes);
+//app.use("/api/services", serviceRoutes);
 app.use("/api/vacancies", vacancyRoutes);
 app.use("/api/auth", authRoutes);
 
@@ -61,3 +61,10 @@ sequelize
 // july 8 programme
 // cooking for 1:30 hr
 // begun code like understanding the backend of sos and make it work the last day is to day
+
+// {
+//   "name": "yordanos yohannes",
+//   "email": "yordanos@example.com",
+//   "password": "yordanos",
+//   "role": "user"
+// }

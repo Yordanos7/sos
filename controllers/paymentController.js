@@ -74,8 +74,24 @@ const deletePayment = async (req, res) => {
   }
 };
 
+const updatePayment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const payment = await Payment.findByPk(id);
+    if (!payment) {
+      return res.status(404).json({ message: "Payment not found" });
+    }
+    // Update the payment here
+    await payment.update(req.body);
+    res.json(payment);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating payment" });
+  }
+};
+
 module.exports = {
   createPayment,
   getPayments,
   deletePayment,
+  updatePayment,
 };

@@ -3,6 +3,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 const {
   createPayment,
   getPayments,
+  updatePayment,
 } = require("../controllers/paymentController");
 const roleMiddleware = require("../middleware/roleMiddleware");
 const router = express.Router();

@@ -1,43 +1,27 @@
-const { DataTypes, Model } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
-const User = require("./User");
 
-const Payment = sequelize.define("Payment", {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      Model: User,
-      key: "id",
+const Payment = sequelize.define(
+  "Payment",
+  {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "User", key: "id" },
     },
+    amount: { type: DataTypes.FLOAT, allowNull: false },
+    status: {
+      type: DataTypes.ENUM("pending", "completed", "failed"),
+      defaultValue: "pending",
+    },
+    paymentDate: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+    transactionId: { type: DataTypes.STRING(100), allowNull: true },
+    screenshot: { type: DataTypes.STRING(255), allowNull: false }, // file path or URL
+    paymentMethod: { type: DataTypes.STRING(50), allowNull: true },
+    transactionLink: { type: DataTypes.STRING(255), allowNull: false },
   },
-  amount: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-  status: {
-    type: DataTypes.ENUM("pending", "completed", "failed"),
-    defaultValue: "pending",
-  },
-  paymentDate: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
-  fileUrl: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  paymentFile: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-});
+  { timestamps: true }
+);
 
 module.exports = Payment;
-
-// here i add paymentFile addtionaly chuck it to the payment model

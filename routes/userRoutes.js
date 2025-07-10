@@ -10,3 +10,5 @@ const router = express.Router();
 router.get("/profile", authMiddleware, getProfile);
 router.put("/profile", authMiddleware, updateProfile); // you will get  error because there is no this controller function in the controllers/userController.jsfile
 router.delete("/profile", authMiddleware, deleteUser);
+
+module.exports = router;
