@@ -21,6 +21,14 @@ const Event = sequelize.define(
     contactPhone: { type: DataTypes.STRING(30), allowNull: true },
     tags: { type: DataTypes.STRING(255), allowNull: true },
     requirements: { type: DataTypes.TEXT, allowNull: true },
+    createdBy: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+    },
   },
   { timestamps: true }
 );

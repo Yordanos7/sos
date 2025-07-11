@@ -4,12 +4,17 @@ const {
   createPayment,
   getPayments,
   updatePayment,
+  deletePayment,
+  upload,
+  getMyPayments,
 } = require("../controllers/paymentController");
 const roleMiddleware = require("../middleware/roleMiddleware");
 const router = express.Router();
 
-router.post("/", authMiddleware, createPayment);
+router.post("/", authMiddleware, upload.single("screenshot"), createPayment);
 router.get("/", authMiddleware, roleMiddleware("admin"), getPayments);
-router.put("/:id", authMiddleware, roleMiddleware("admin"), updatePayment); // you will get error because there is no this controller function in the controllers/paymentController.js file
+router.get("/my-payments", authMiddleware, getMyPayments);
+router.put("/:id", authMiddleware, roleMiddleware("admin"), updatePayment);
+router.delete("/:id", authMiddleware, roleMiddleware("admin"), deletePayment);
 
 module.exports = router;

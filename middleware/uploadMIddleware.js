@@ -1,4 +1,5 @@
 const multer = require("multer");
+const path = require("path");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -16,7 +17,7 @@ const fileFilter = (req, file, cb) => {
   );
   const mimetype = allowedTypes.test(file.mimetype);
   if (extname && mimetype) {
-    return cb(null.true);
+    return cb(null, true);
   }
   cb(
     new Error(

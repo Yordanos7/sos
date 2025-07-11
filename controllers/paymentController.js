@@ -1,6 +1,4 @@
-const { json } = require("sequelize");
-const Payment = require("../models/Payment");
-const User = require("../models/User");
+const { Payment, User } = require("../models");
 const multer = require("multer");
 
 const storage = multer.diskStorage({
@@ -8,55 +6,108 @@ const storage = multer.diskStorage({
     cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, `${Data.now()}- ${file.originalname}`);
+    cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
 const upload = multer({ storage });
 
 const createPayment = async (req, res) => {
   try {
-    const { amount } = req.body;
+    const { amount, transactionId, paymentMethod, transactionLink } = req.body;
     const userId = req.user.id;
-    const fileUrl = req.file ? `uploads/${req.file.filename}` : null;
+    const screenshot = req.file ? `uploads/${req.file.filename}` : null;
+
+    if (!amount || !screenshot || !transactionLink) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
 
     const payment = await Payment.create({
       userId,
       amount,
       status: "pending",
-      fileUrl,
+      transactionId,
+      screenshot,
+      paymentMethod,
+      transactionLink,
     });
+
     res.status(201).json({
       message: "Payment created successfully",
       payment,
-      userId,
-      fileUrl,
     });
   } catch (error) {
-    res.status(500),
-      json({
-        message:
-          "you have an error on the createPayment controller internal sever error",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Internal server error in createPayment",
+      error: error.message,
+    });
   }
 };
 
 const getPayments = async (req, res) => {
   try {
-    const payment = await Payment.find({
-      include: {
-        model: User,
-        attributes: ["id", "user", "email"],
-      },
+    const user = req.user;
+    let payments;
+
+    if (user.role === "admin") {
+      // Admins get all payments
+      payments = await Payment.findAll({
+        include: [
+          {
+            model: User,
+            as: "user",
+            attributes: ["id", "name", "email"],
+          },
+        ],
+      });
+    } else {
+      // Non-admins get only their own payments
+      payments = await Payment.findAll({
+        where: { userId: user.id },
+        include: [
+          {
+            model: User,
+            as: "user",
+            attributes: ["id", "name", "email"],
+          },
+        ],
+      });
+    }
+
+    res.json(payments);
+  } catch (error) {
+    console.error("Error fetching payments:", error);
+    res.status(500).json({
+      message: "Error fetching payments",
+      error: error.message || "Internal server error",
     });
-  } catch (error) {}
+  }
 };
 
-// here i leave not woking updatePayment controller
+const getMyPayments = async (req, res) => {
+  try {
+    const payments = await Payment.findAll({
+      where: { userId: req.user.id },
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["id", "name", "email"],
+        },
+      ],
+    });
+    res.json(payments);
+  } catch (error) {
+    console.error("Error fetching payments:", error);
+    res.status(500).json({
+      message: "Error fetching payments",
+      error: error.message || "Internal server error",
+    });
+  }
+};
 
 const deletePayment = async (req, res) => {
   try {
-    const { id } = req.paramsl;
+    const { id } = req.params;
     const payment = await Payment.findByPk(id);
     if (!payment) {
       return res
@@ -77,15 +128,20 @@ const deletePayment = async (req, res) => {
 const updatePayment = async (req, res) => {
   try {
     const { id } = req.params;
+    const { status } = req.body;
     const payment = await Payment.findByPk(id);
     if (!payment) {
       return res.status(404).json({ message: "Payment not found" });
     }
-    // Update the payment here
-    await payment.update(req.body);
-    res.json(payment);
+
+    payment.status = status;
+    await payment.save();
+
+    res.json({ message: "Payment status updated successfully", payment });
   } catch (error) {
-    res.status(500).json({ message: "Error updating payment" });
+    res
+      .status(500)
+      .json({ message: "Error updating payment", error: error.message });
   }
 };
 
@@ -94,4 +150,6 @@ module.exports = {
   getPayments,
   deletePayment,
   updatePayment,
+  upload,
+  getMyPayments,
 };

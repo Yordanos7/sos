@@ -1,3 +1,4 @@
+// index.js
 const User = require("./User");
 const Payment = require("./Payment");
 const Announcement = require("./Announcement");
@@ -5,20 +6,27 @@ const Event = require("./Event");
 const Media = require("./Media");
 const News = require("./News");
 const Vacancy = require("./Vacancy");
+const Contact = require("./Contact");
+const Service = require("./Service");
 
-User.hasMany(Payment, { foreignKeys: "userId" });
-User.hasMany(Announcement, { foreignKeys: "userId" });
-User.hasMany(Event, { foreignKeys: "userId" });
-User.hasMany(Media, { foreignKeys: "uploadedBy" });
-User.hasMany(News, { foreignKeys: "postedBy" });
-User.hasMany(Vacancy, { foreignKeys: "postedBy" });
+// Define associations
+User.hasMany(Payment, { foreignKey: "userId", as: "payments" });
+Payment.belongsTo(User, { foreignKey: "userId", as: "user" });
 
-Payment.belongsTo(User, { foreignKey: "userId" });
-Announcement.belongsTo(User, { foreignKey: "postedBy" });
-Event.belongsTo(User, { foreignKey: "createdBy" });
-Media.belongsTo(User, { foreignKey: "uploadedBy" });
-News.belongsTo(User, { foreignKey: "postedBy" });
-Vacancy.belongsTo(User, { foreignKey: "postedBy" });
+User.hasMany(Announcement, { foreignKey: "postedBy", as: "announcements" });
+Announcement.belongsTo(User, { foreignKey: "postedBy", as: "user" });
+
+User.hasMany(Event, { foreignKey: "createdBy", as: "events" });
+Event.belongsTo(User, { foreignKey: "createdBy", as: "user" });
+
+User.hasMany(Media, { foreignKey: "uploadedBy", as: "media" });
+Media.belongsTo(User, { foreignKey: "uploadedBy", as: "user" });
+
+User.hasMany(News, { foreignKey: "postedBy", as: "news" });
+News.belongsTo(User, { foreignKey: "postedBy", as: "user" });
+
+User.hasMany(Vacancy, { foreignKey: "postedBy", as: "vacancies" });
+Vacancy.belongsTo(User, { foreignKey: "postedBy", as: "user" });
 
 module.exports = {
   User,

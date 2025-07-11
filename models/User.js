@@ -23,6 +23,7 @@ const User = sequelize.define(
     address: { type: DataTypes.STRING(255), allowNull: true },
   },
   {
+    tableName: "User", // Explicitly set table name to match database
     hooks: {
       beforeCreate: async (user) => {
         user.password = await bcrypt.hash(user.password, 10);

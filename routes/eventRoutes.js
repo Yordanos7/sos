@@ -9,8 +9,8 @@ const {
 const roleMiddleware = require("../middleware/roleMiddleware");
 const router = express.Router();
 
-router.get("/", authMiddleware, getEvents);
-router.post("/", authMiddleware, createEvent);
+router.get("/", getEvents);
+router.post("/", authMiddleware, roleMiddleware("admin"), createEvent);
 router.put("/:id", authMiddleware, roleMiddleware("admin"), updateEvent);
 router.delete("/:id", authMiddleware, roleMiddleware("admin"), deleteEvent);
 module.exports = router;

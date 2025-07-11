@@ -8,7 +8,7 @@ const Payment = sequelize.define(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: "User", key: "id" },
+      references: { model: "User", key: "id" }, // Reference the User table
     },
     amount: { type: DataTypes.FLOAT, allowNull: false },
     status: {
@@ -17,11 +17,11 @@ const Payment = sequelize.define(
     },
     paymentDate: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
     transactionId: { type: DataTypes.STRING(100), allowNull: true },
-    screenshot: { type: DataTypes.STRING(255), allowNull: false }, // file path or URL
+    screenshot: { type: DataTypes.STRING(255), allowNull: false },
     paymentMethod: { type: DataTypes.STRING(50), allowNull: true },
     transactionLink: { type: DataTypes.STRING(255), allowNull: false },
   },
-  { timestamps: true }
+  { tableName: "Payment", timestamps: true }
 );
 
 module.exports = Payment;
