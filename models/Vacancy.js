@@ -39,6 +39,14 @@ const Vacancy = sequelize.define(
     contactPhone: { type: DataTypes.STRING(30), allowNull: true },
     hiringManager: { type: DataTypes.STRING(100), allowNull: true },
     urgent: { type: DataTypes.BOOLEAN, defaultValue: false },
+    postedBy: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Users", // 'Users' is the table name for the User model
+        key: "id",
+      },
+    },
   },
   { timestamps: true }
 );

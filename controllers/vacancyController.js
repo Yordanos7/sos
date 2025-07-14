@@ -2,12 +2,45 @@ const Vacancy = require("../models/Vacancy");
 
 const createVacancy = async (req, res) => {
   try {
-    const { title, description } = req.body; // you may add department, location,employmentType,exprianceLevel,componsation, jobDescription,responsibilities, requirements,hiremanger,contact,phonenumber no benifits held as there in frontend
+    const {
+      title,
+      department,
+      location,
+      employmentType,
+      experienceLevel,
+      salaryMin,
+      salaryMax,
+      applicationDeadline,
+      jobDescription,
+      responsibilities,
+      requirements,
+      qualifications,
+      benefits,
+      contactEmail,
+      contactPhone,
+      hiringManager,
+      urgent,
+    } = req.body;
     const userId = req.user.id;
 
     const vacancy = await Vacancy.create({
       title,
-      description,
+      department,
+      location,
+      employmentType,
+      experienceLevel,
+      salaryMin,
+      salaryMax,
+      applicationDeadline,
+      jobDescription,
+      responsibilities,
+      requirements,
+      qualifications,
+      benefits,
+      contactEmail,
+      contactPhone,
+      hiringManager,
+      urgent,
       postedBy: userId,
     });
 
